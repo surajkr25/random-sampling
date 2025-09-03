@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,7 +33,7 @@ class RandomSamplingTest {
     @DisplayName("Random Sampling Using Collections.Shuffle method")
     void testRandomSamplingUsingCollectionsShuffle() {
         for(int i = 0 ; i < 5 ; i++) {
-            PrintUtils.printIntList(sampling.randomSamplingUsingShuffle(null));
+            PrintUtils.printIntList(sampling.randomSamplingUsingShuffle(ThreadLocalRandom.current()));
         }
     }
 }
