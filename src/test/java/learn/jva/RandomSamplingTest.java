@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -24,15 +23,15 @@ class RandomSamplingTest {
 
     @BeforeEach
     void setUp() {
-            System.out.println("Original List");
-            PrintUtils.printIntList(data);
-            System.out.printf("---------Sample of size %d: %n", sampleSize);
+        System.out.println("Original List");
+        PrintUtils.printIntList(data);
+        System.out.printf("---------Sample of size %d: %n", sampleSize);
     }
 
     @Test
     @DisplayName("Random Sampling Using Collections.Shuffle method")
     void testRandomSamplingUsingCollectionsShuffle() {
-        for(int i = 0 ; i < 5 ; i++) {
+        for (int i = 0; i < 5; i++) {
             PrintUtils.printIntList(sampling.randomSamplingUsingShuffle(ThreadLocalRandom.current()));
         }
     }
@@ -40,7 +39,7 @@ class RandomSamplingTest {
     @Test
     @DisplayName("Random Sampling Using Collections.swap method")
     void testRandomSamplingUsingCollectionsSwap() {
-        for(int i = 0 ; i < 5 ; i++) {
+        for (int i = 0; i < 5; i++) {
             PrintUtils.printIntList(sampling.randomSamplingUsingSwap());
         }
     }
