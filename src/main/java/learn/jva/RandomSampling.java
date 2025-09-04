@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomSampling {
 
@@ -20,6 +21,14 @@ public class RandomSampling {
 
         if (randomSeed == null) Collections.shuffle(data);
         else Collections.shuffle(data, randomSeed);
+
+        return data.subList(0, sampleSize);
+    }
+
+    public List<Integer> randomSamplingUsingSwap() {
+        for (int i = 0; i < sampleSize; i++) {
+            Collections.swap(data, i, ThreadLocalRandom.current().nextInt(data.size() - i));
+        }
 
         return data.subList(0, sampleSize);
     }

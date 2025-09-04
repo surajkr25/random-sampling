@@ -36,4 +36,12 @@ class RandomSamplingTest {
             PrintUtils.printIntList(sampling.randomSamplingUsingShuffle(ThreadLocalRandom.current()));
         }
     }
+
+    @Test
+    @DisplayName("Random Sampling Using Collections.swap method")
+    void testRandomSamplingUsingCollectionsSwap() {
+        for(int i = 0 ; i < 5 ; i++) {
+            PrintUtils.printIntList(sampling.randomSamplingUsingSwap());
+        }
+    }
 }
