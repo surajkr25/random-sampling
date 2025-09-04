@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -41,6 +44,28 @@ class RandomSamplingTest {
     void testRandomSamplingUsingCollectionsSwap() {
         for (int i = 0; i < 5; i++) {
             PrintUtils.printIntList(sampling.randomSamplingUsingSwap());
+        }
+    }
+
+
+    @Test
+    @DisplayName("Test Random Online Sampling")
+    void testRandomOnlineSampling() throws IOException, ClassNotFoundException {
+        final var onlineSamplePath = Path.of("src", "test", "resources", "onlineSampling.ser");
+
+        try (final OutputStream os = Files.newOutputStream(onlineSamplePath);
+             final ObjectOutputStream oos = new ObjectOutputStream(os)) {
+            data.forEach(i-> {
+                try {
+                    oos.writeObject(Integer.valueOf(i));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        try(final InputStream is = Files.newInputStream(onlineSamplePath)) {
+            PrintUtils.printIntList(sampling.randomOnlineSampling(is));
         }
     }
 }

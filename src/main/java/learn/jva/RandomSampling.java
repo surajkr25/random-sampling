@@ -1,10 +1,17 @@
 package learn.jva;
 
+import learn.utils.PrintUtils;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 public class RandomSampling {
 
@@ -31,5 +38,41 @@ public class RandomSampling {
         }
 
         return data.subList(0, sampleSize);
+    }
+
+    public List<Integer> randomOnlineSampling(InputStream is) throws IOException, ClassNotFoundException {
+        final List<Integer> runnngSample = new ArrayList<>(sampleSize);
+
+        final var ois = new ObjectInputStream(is);
+
+        for(int i = 0; i < sampleSize; i++) {
+            final Integer j = (Integer) ois.readObject();
+            runnngSample.add(j);
+        }
+
+        int numbersSeenSoFar = sampleSize;
+
+        while (true) {
+            try{
+                final Integer k = (Integer) ois.readObject();
+                ++numbersSeenSoFar;
+                final var id2Replace = ThreadLocalRandom.current().nextInt(numbersSeenSoFar);
+
+                if(id2Replace < sampleSize) {
+                    runnngSample.set(id2Replace, k);
+                }
+
+                TimeUnit.MILLISECONDS.sleep(500L);
+
+                PrintUtils.printIntList(runnngSample);
+            } catch (final EOFException eof) {
+                break;
+            } catch (final InterruptedException i) {
+                i.printStackTrace();
+            }
+        }
+
+        ois.close();
+        return runnngSample;
     }
 }
